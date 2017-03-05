@@ -1,4 +1,4 @@
-import Processors.MerpProcessor;
+import Processors.*;
 import Util.Errors;
 
 import java.util.Scanner;

@@ -43,7 +43,11 @@ public abstract class MerpProcessor {
      * @param s the string used to determine the type of Nodes.MerpNode to return
      * @return the Nodes.MerpNode represented by the string
      */
-    protected MerpNode createMerpNode(String s){
+
+
+
+
+   protected MerpNode createMerpNode(String s){
         if(isVariable(s)){
             return new VariableNode(s);
         }
