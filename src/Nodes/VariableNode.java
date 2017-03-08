@@ -3,16 +3,20 @@ package Nodes;
 import Util.SymbolTable;
 
 /**
- * Created by David on 3/5/2017.
+ * A node that represents a variable.
+ *
+ * @author dmp6637 (David Pastuch)
  */
 public class VariableNode implements MerpNode{
+
+    private String name;
 
     /**
      * Create a new constant node.
      * @param name Variable name
      */
-    public VariableNode(java.lang.String name) {
-
+    public VariableNode(String name) {
+        this.name = name;
     }
 
     /**
@@ -27,20 +31,20 @@ public class VariableNode implements MerpNode{
     /**
      * Evaulate this node.
      * @param symbolTable the symbol table to use for variable processing
-     * @return The integer value of this node
+     * @return The integer value of this variable
      */
     @Override
     public int evaluate(SymbolTable symbolTable) {
-        return 0;
+        return symbolTable.get(name);
     }
 
     /**
      * Get the precedence of this node.
-     * @return The precedence of [ this ]
+     * @return The precedence of constant
      */
     @Override
     public int getPrecedence() {
-        return 0;
+        return Precedence.CONSTANT.getPrecedence();
     }
 
     /**
@@ -49,7 +53,7 @@ public class VariableNode implements MerpNode{
      */
     @Override
     public NodeType getNodeType() {
-        return null;
+        return NodeType.Variable;
     }
 
     /**
@@ -58,7 +62,7 @@ public class VariableNode implements MerpNode{
      */
     @Override
     public String toInfixString() {
-        return null;
+        return name;
     }
 
     /**
@@ -67,7 +71,7 @@ public class VariableNode implements MerpNode{
      */
     @Override
     public String toPostfixString() {
-        return null;
+        return name;
     }
 
     /**
@@ -76,6 +80,28 @@ public class VariableNode implements MerpNode{
      */
     @Override
     public String toPrefixString() {
-        return null;
+        return name;
+    }
+
+    /**
+     * Testing statements
+     * @param args none
+     */
+    public static void main(String[] args) {
+        VariableNode v1 = new VariableNode("x");
+        SymbolTable s = new SymbolTable();
+        s.put("x", 5);
+        System.out.println("evaluate check: " + (v1.evaluate(s)
+                == 5 ? "PASS" : "FAIL - supposed to be false"));
+        System.out.println("getNodeType check: " + (v1.getNodeType() ==
+                NodeType.Variable ? "PASS" : "FAIL - supposed to be false"));
+        System.out.println("getPrecedence check: " + (v1.getPrecedence() == 3
+                ? "PASS" : "FAIL - supposed to be false"));
+        System.out.println("isOperation check: " + (v1.isOperation() == false ?
+                "PASS" : "FAIL - supposed to be false"));
+        System.out.println("toString checks: check manually. Should all be \"x\"");
+        System.out.println(v1.toInfixString());
+        System.out.println(v1.toPrefixString());
+        System.out.println(v1.toPostfixString());
     }
 }

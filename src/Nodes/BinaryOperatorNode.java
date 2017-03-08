@@ -3,11 +3,16 @@ package Nodes;
 import Util.SymbolTable;
 
 /**
- * Created by David on 3/5/2017.
+ * Node representing a binary operator.
+ *
+ * @author dmp6637 (David Pastuch)
  */
-public class BinaryOperatorNode implements MerpNode {
+public abstract class BinaryOperatorNode implements MerpNode {
 
-    private int value;
+    protected MerpNode leftChild;
+    protected String operator;
+    protected Precedence precedence;
+    protected MerpNode rightChild;
 
     /**
      * Create a new constant node.
@@ -19,7 +24,10 @@ public class BinaryOperatorNode implements MerpNode {
     public BinaryOperatorNode(MerpNode leftChild, MerpNode rightChild,
                               Precedence precedence,
                               java.lang.String operator) {
-        this.value = value;
+        this.leftChild = leftChild;
+        this.rightChild = rightChild;
+        this.precedence = precedence;
+        this.operator = operator;
     }
 
     /**
@@ -28,26 +36,7 @@ public class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public boolean isOperation() {
-        return false;
-    }
-
-    /**
-     * Evaulate this node.
-     * @param symbolTable the symbol table to use for variable processing
-     * @return The integer value of this node
-     */
-    @Override
-    public int evaluate(SymbolTable symbolTable) {
-        return this.value;
-    }
-
-    /**
-     * Get the precedence of this node.
-     * @return The precedence of CONSTANT
-     */
-    @Override
-    public int getPrecedence() {
-        return Precedence.CONSTANT.getPrecedence();
+        return true;
     }
 
     /**
@@ -56,7 +45,7 @@ public class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public NodeType getNodeType() {
-        return NodeType.Constant;
+        return NodeType.BinaryOperation;
     }
 
     /**
@@ -65,7 +54,8 @@ public class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public String toInfixString() {
-        return Integer.toString(this.value);
+        return ("(" + leftChild.toInfixString() + " " + operator + " " +
+                rightChild.toInfixString() + ")");
     }
 
     /**
@@ -74,7 +64,8 @@ public class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPostfixString() {
-        return Integer.toString(this.value);
+        return ("(" + leftChild.toPostfixString() + " " + operator + " " +
+                rightChild.toPostfixString() + ")");
     }
 
     /**
@@ -83,6 +74,23 @@ public class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPrefixString() {
-        return Integer.toString(this.value);
+        return ("(" + leftChild.toInfixString() + " " + operator + " " +
+                rightChild.toInfixString() + ")");
+    }
+
+    /**
+     * Sets the left child.
+     * @param leftChild New left child
+     */
+    public void setLeftChild(MerpNode leftChild) {
+        this.leftChild = leftChild;
+    }
+
+    /**
+     * Sets the right child.
+     * @param rightChild New right child
+     */
+    public void setRightChild(MerpNode rightChild) {
+        this.rightChild = rightChild;
     }
 }

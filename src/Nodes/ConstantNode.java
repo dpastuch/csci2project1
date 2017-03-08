@@ -84,7 +84,7 @@ public class ConstantNode implements MerpNode {
     }
 
     /**
-     * Main method with test functions for constant nodes.
+     * Testing statements
      * @param args none
      */
     public static void main(String[] args) {
