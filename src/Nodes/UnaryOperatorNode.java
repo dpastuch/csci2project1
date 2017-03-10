@@ -3,19 +3,24 @@ package Nodes;
 import Util.SymbolTable;
 
 /**
- * Created by David on 3/5/2017.
+ * Framework for a node that uses only one child node.
  */
-public class UnaryOperatorNode implements MerpNode {
+public abstract class UnaryOperatorNode implements MerpNode {
 
+    protected MerpNode child;
+    protected String operator;
+    protected Precedence precendence;
     /**
-     * Create a new constant node.
+     * Create a new unary operator node.
      * @param child Child node
      * @param precedence Precedence
      * @param operator Arithmetic operator
      */
     public UnaryOperatorNode(MerpNode child, Precedence precedence,
                              java.lang.String operator) {
-
+        this.child = child;
+        this.operator = operator;
+        this.precendence = precedence;
     }
 
     /**
@@ -24,7 +29,7 @@ public class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public boolean isOperation() {
-        return false;
+        return true;
     }
 
     /**
@@ -43,7 +48,7 @@ public class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public int getPrecedence() {
-        return 0;
+        return precendence.getPrecedence();
     }
 
     /**
@@ -52,7 +57,7 @@ public class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public NodeType getNodeType() {
-        return null;
+        return NodeType.UnaryOperation;
     }
 
     /**
@@ -61,7 +66,7 @@ public class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public String toInfixString() {
-        return null;
+        return operator + " " + child.toInfixString();
     }
 
     /**
@@ -70,7 +75,7 @@ public class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPostfixString() {
-        return null;
+        return child.toPostfixString() + " " + operator;
     }
 
     /**
@@ -79,6 +84,14 @@ public class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPrefixString() {
-        return null;
+        return operator + " " + child.toInfixString();
+    }
+
+    /**
+     * Set this node's child.
+     * @param child child node
+     */
+    public void setChild(MerpNode child) {
+        this.child = child;
     }
 }

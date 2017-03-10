@@ -1,7 +1,9 @@
 package Processors;
 
 /**
- * Created by David on 3/5/2017.
+ * Class for processing mathematical expressions in prefix form.
+ *
+ * @author dmp6637 (David Pastuch)
  */
 public class MerpPrefixProcessor extends MerpProcessor {
 

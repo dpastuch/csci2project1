@@ -12,7 +12,7 @@ public class VariableNode implements MerpNode{
     private String name;
 
     /**
-     * Create a new constant node.
+     * Create a new variable node.
      * @param name Variable name
      */
     public VariableNode(String name) {

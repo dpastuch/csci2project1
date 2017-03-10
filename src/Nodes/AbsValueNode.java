@@ -2,82 +2,31 @@ package Nodes;
 
 import Util.SymbolTable;
 
-/**
- * Created by David on 3/5/2017.
- */
-public class AbsValueNode implements MerpNode {
+import java.util.function.UnaryOperator;
 
-    private int value;
+/**
+ * Class for processing mathematical expressions in prefix form.
+ */
+public class AbsValueNode extends UnaryOperatorNode {
 
     /**
-     * Create a new constant node.
+     * Create a new absolute value node.
+     *
      * @param child Child of node
      */
     public AbsValueNode(MerpNode child) {
-        this.value = value;
-    }
-
-    /**
-     * Determine if this node is an operation node.
-     * @return True if this is an operation node, otherwise false
-     */
-    @Override
-    public boolean isOperation() {
-        return false;
+        super(child, Precedence.MULT_DIVIDE, "|");
     }
 
     /**
      * Evaulate this node.
+     *
      * @param symbolTable the symbol table to use for variable processing
      * @return The integer value of this node
      */
     @Override
     public int evaluate(SymbolTable symbolTable) {
-        return this.value;
-    }
-
-    /**
-     * Get the precedence of this node.
-     * @return The precedence of CONSTANT
-     */
-    @Override
-    public int getPrecedence() {
-        return Precedence.CONSTANT.getPrecedence();
-    }
-
-    /**
-     * Get this node's type.
-     * @return Type of node
-     */
-    @Override
-    public NodeType getNodeType() {
-        return NodeType.Constant;
-    }
-
-    /**
-     * Convert this node to an infix string.
-     * @return node in string format
-     */
-    @Override
-    public String toInfixString() {
-        return Integer.toString(this.value);
-    }
-
-    /**
-     * Convert this node to a postfix string.
-     * @return node in string format
-     */
-    @Override
-    public String toPostfixString() {
-        return Integer.toString(this.value);
-    }
-
-    /**
-     * Convert this node to an prefix string.
-     * @return node in string format
-     */
-    @Override
-    public String toPrefixString() {
-        return Integer.toString(this.value);
+        return Math.abs(child.evaluate(symbolTable));
     }
 }
+

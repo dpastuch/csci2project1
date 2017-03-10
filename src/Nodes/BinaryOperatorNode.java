@@ -15,7 +15,7 @@ public abstract class BinaryOperatorNode implements MerpNode {
     protected MerpNode rightChild;
 
     /**
-     * Create a new constant node.
+     * Create a new binary operator node.
      * @param leftChild Left child node
      * @param rightChild Right child node
      * @param precedence Precedence
@@ -49,6 +49,15 @@ public abstract class BinaryOperatorNode implements MerpNode {
     }
 
     /**
+     * Get the precendence of this node.
+     * @return precedence
+     */
+    @Override
+    public int getPrecedence() {
+        return this.precedence.getPrecedence();
+    }
+
+    /**
      * Convert this node to an infix string.
      * @return node in string format
      */
@@ -64,8 +73,8 @@ public abstract class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPostfixString() {
-        return ("(" + leftChild.toPostfixString() + " " + operator + " " +
-                rightChild.toPostfixString() + ")");
+        return ("(" + leftChild.toPostfixString() + " " + rightChild.toPostfixString() + " " +
+                 operator + ")");
     }
 
     /**
@@ -74,7 +83,7 @@ public abstract class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPrefixString() {
-        return ("(" + leftChild.toInfixString() + " " + operator + " " +
+        return ("(" + operator + " " + leftChild.toInfixString() + " " +
                 rightChild.toInfixString() + ")");
     }
 
