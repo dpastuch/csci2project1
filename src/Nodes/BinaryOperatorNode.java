@@ -73,8 +73,8 @@ public abstract class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPostfixString() {
-        return ("(" + leftChild.toPostfixString() + " " + rightChild.toPostfixString() + " " +
-                 operator + ")");
+        return (leftChild.toPostfixString() + " " + rightChild.toPostfixString() + " " +
+                 operator);
     }
 
     /**
@@ -83,8 +83,8 @@ public abstract class BinaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPrefixString() {
-        return ("(" + operator + " " + leftChild.toInfixString() + " " +
-                rightChild.toInfixString() + ")");
+        return (operator + " " + leftChild.toPrefixString() + " " +
+                rightChild.toPrefixString());
     }
 
     /**

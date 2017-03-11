@@ -66,7 +66,7 @@ public abstract class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public String toInfixString() {
-        return operator + " " + child.toInfixString();
+        return "(" + operator + " " + child.toInfixString() + ")";
     }
 
     /**
@@ -84,7 +84,7 @@ public abstract class UnaryOperatorNode implements MerpNode {
      */
     @Override
     public String toPrefixString() {
-        return operator + " " + child.toInfixString();
+        return operator + " " + child.toPrefixString();
     }
 
     /**

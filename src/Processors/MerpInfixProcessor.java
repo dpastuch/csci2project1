@@ -1,14 +1,15 @@
 package Processors;
 
-import Nodes.AdditionNode;
-import Nodes.ConstantNode;
-import Nodes.MerpNode;
+import Nodes.*;
+import Util.Errors;
 import Util.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
 /**
  * Equation processor for equations that use infix notation.
@@ -19,22 +20,71 @@ public class MerpInfixProcessor extends MerpProcessor {
 
     @Override
     public void constructTree(ArrayList<String> tokens) {
-        Stack s1 = new Stack<String>();
-        Queue q1 = new LinkedList<String>();
+        Stack<MerpNode> s1 = new Stack();
+        Stack<MerpNode> nodeStack = new Stack();
+        Stack<MerpNode> s2 = new Stack();
+        Stack<MerpNode> operatorStack = new Stack();
         for (String t : tokens) {
-            try{
-                Integer.parseInt(t);
-                q1.add(t);
-                } catch(Exception e){}
-            if(t == "+" || t == "-" || t == "*" || t== "/") {
-                s1.add(t);
-            }
-            else if()
+            s1.push(createMerpNode(t));
         }
+        while(!(s1.empty())) {
+            nodeStack.push(s1.pop());
+        }
+        for(MerpNode n : nodeStack) {
+            switch(n.getNodeType()) {
+                case Constant: s2.push(n); break;
+                case Variable: s2.push(n); break;
+                case BinaryOperation:
+                    if(operatorStack.empty()) {
+                        operatorStack.push(n);
+                    }
+                    else {
+                        if(n.getPrecedence() >=
+                                operatorStack.peek().getPrecedence()) {
+                            s2.push(operatorStack.pop());
+                        }
+                        operatorStack.push(n);
+                    } break;
+                case UnaryOperation:
+                    if(operatorStack.empty()) {
+                        operatorStack.push(n);
+                    }
+                    else {
+                        if(n.getPrecedence() >
+                                operatorStack.peek().getPrecedence()) {
+                            s2.push(operatorStack.pop());
+                        }
+                        operatorStack.push(n);
+                    } break;
+                default:
+                    Errors.error("Not a MerpNode",
+                            System.err);
+            }
+        }
+        while(!(operatorStack.empty())){
+            s2.push(operatorStack.pop());
+        }
+
+        tree = processStack(s2);
     }
 
     private MerpNode processStack(Stack<MerpNode> stack) {
-
+        MerpNode n = stack.get(stack.size() - 1);
+        stack.remove(n);
+        if(n instanceof BinaryOperatorNode) {
+            ((BinaryOperatorNode) n).setLeftChild(processStack(stack));
+            ((BinaryOperatorNode) n).setRightChild(processStack(stack));
+        }
+        else if(n instanceof UnaryOperatorNode) {
+            ((UnaryOperatorNode) n).setChild(processStack(stack));
+        }
+        else if(n instanceof ConstantNode || n instanceof VariableNode)
+            return n;
+        else {
+            Errors.error("String not in proper infix format",
+                    System.err);
+            return null;
+        }
+        return n;
     }
-
 }
