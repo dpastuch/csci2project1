@@ -12,11 +12,20 @@ import java.util.ArrayList;
  */
 public class MerpPrefixProcessor extends MerpProcessor {
 
+    /**
+     * Construct a tree from a prefix expression.
+     * @param tokens list of IerpNodes used to create the pares tree
+     */
     @Override
     public void constructTree(java.util.ArrayList<java.lang.String> tokens) {
         tree = constructTreeHelper(tokens);
     }
 
+    /**
+     * Helper method for constructTree.
+     * @param tokens list of string tokens
+     * @return root node
+     */
     private MerpNode constructTreeHelper(ArrayList<String> tokens) {
         MerpNode n = createMerpNode(tokens.get(0));
         tokens.remove(tokens.get(0));

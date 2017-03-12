@@ -18,6 +18,10 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
  */
 public class MerpInfixProcessor extends MerpProcessor {
 
+    /**
+     * Construct a tree from an infix expression.
+     * @param tokens list of IerpNodes used to create the pares tree
+     */
     @Override
     public void constructTree(ArrayList<String> tokens) {
         Stack<MerpNode> s1 = new Stack();
@@ -68,6 +72,11 @@ public class MerpInfixProcessor extends MerpProcessor {
         tree = processStack(s2);
     }
 
+    /**
+     * Helper method for constructTree.
+     * @param stack stack
+     * @return root node
+     */
     private MerpNode processStack(Stack<MerpNode> stack) {
         MerpNode n = stack.get(stack.size() - 1);
         stack.remove(n);
